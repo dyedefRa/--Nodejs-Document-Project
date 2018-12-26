@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 400px;
+            width: 600px;
+            border: 2px solid #ccc;
+        }
+    </style>
+
+    <title>Canvas ile Realtime Çizim</title>
+</head>
+
+<body>
+
+
+
+    <canvas onmousemove="eylem(event)" id="myCanvas"></canvas>
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        var socket = io.connect();
+
+//BU METOD onmousemove ye baglı
+//hareket ettıgınde servera 'gonder' parametresiyle socket ile x,y kordınatlarını gonderıyoruz
+        function eylem(a) {
+            var x = a.clientX;
+            var y = a.clientY;
+            socket.emit('gonder', { 'x': x, 'y': y });
+
+        }
+
+        //CANVASU ALDIK VE 2d CIZIM OLACAGINIZ SOYLEDIK
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext('2d');
+        context.beginPath();
+
+//al ile x ve y yi serverdan alıp cızdırme olayını yapıyorz..
+        socket.on('al', function (data) {
+            context.lineTo(data.x, data.y);
+            context.stroke();
+        });
+
+    </script>
+</body>
+
+</html>

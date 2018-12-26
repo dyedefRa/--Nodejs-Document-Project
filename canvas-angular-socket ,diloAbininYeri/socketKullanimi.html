@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+
+    <title>Sistem</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <span>Adınız :</span>
+                <input id='ad' type="text" class="form-control">
+            </div>
+            <div class="col-sm-4">
+                <a id="baglan" class="btn btn-success mt-4" href="#" onclick="return false;">Sisteme baglan</a>
+            </div>
+        </div>
+        <hr>
+        <div id="mesaj"></div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $('#baglan').click(function () {
+ var clientSocket = io.connect();
+            isim = $('#ad').val();
+            clientSocket.emit('baglanma', isim);
+            clientSocket.on('yollama', function (data) {
+         
+                $('#mesaj').append("<p style='color:red;'>" + data + " adlı kişi sisteme baglandı</p>");
+               
+
+            });
+        })
+
+
+    </script>
+
+</body>
+
+</html>

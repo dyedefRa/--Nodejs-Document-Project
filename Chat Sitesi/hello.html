@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style>
+        #section {
+            width: 800px;
+            margin: 0 auto;
+            background-color: red;
+        }
+
+        #left {
+            width: 400px;
+
+            float: left;
+            background-color: dimgray;
+        }
+
+        #right {
+            width: 400px;
+            height: 300px;
+            float: right;
+            background-color: yellow;
+        }
+
+        #left input {
+            width: 300px;
+            margin: 10px auto;
+        }
+
+        .left-bottom {
+            margin: 20px auto;
+            background-color: teal;
+            width: 250px;
+
+        }
+    </style>
+
+    <title>HELLOO</title>
+</head>
+
+<body>
+
+
+    <h1 id="alert">
+
+    </h1>
+
+    <h2 style="color:red;" id="cikti"></h2>
+    <section id="section">
+        <div id="right">
+            <div class="alert alert-success">Okey</div>
+
+
+            <textarea id="servercik"  name="" id="" cols="50" rows="50"></textarea>
+        </div>
+        <div id="left">
+
+            <input id="kul_Adi" class="form-control" placeholder="Kullanıcı Adı" style="margin-top: 50px;" type="text">
+
+            <input id="file_Image" class="form-control btn btn-info" type="file">
+            <button id="btn_Baglan" class="btn btn-primary" style="margin-left: 280px; margin-bottom: 10px;">Baglan</button>
+
+            <div class="left-bottom">
+                <div>
+                    <img id="kul_Img" src="https://pbs.twimg.com/profile_images/999060372526006272/e1hs_lkV_400x400.jpg" class="img-circle"
+                      style="margin-left:15px; margin-top:15px;"  width="100" alt="">
+                    <label id="kul_Ad">HASDAF</label>
+                </div>
+              <textarea class="form-control" style="margin-top: 10px;" name="" id="mesaj" cols="30" rows="10"></textarea>
+                <button id="btn_tweet" class="btn btn-success" style="margin-left:150px; margin-bottom:10px;margin-top:10px;">TWEET</button>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script>
+
+      
+      var kulAdi;
+        var mesaj;
+
+
+
+        var socket = io('http://127.0.0.1:8000');
+      
+        socket.on('connect', function () {
+           
+           
+            socket.on('hepsinegitsin', function (msg) {
+
+           $("#servercik").append(msg);
+           $("#servercik").append('        ');
+            });
+            socket.on('cikti', function (msg) {
+                $("#cikti").append(msg+'"\r\n"');
+            })
+        });
+
+           // $(".left-bottom").hide();
+           $("#btn_Baglan").click(function () {
+            var kullaniciAdi = $('#kul_Adi').val();
+            var img = $("#file_Image").val();
+            if (kullaniciAdi != "" & img != "") {
+             
+                $('#kul_Img').attr('src', 'https://pbs.twimg.com/profile_images/999060372526006272/e1hs_lkV_400x400.jpg');
+                $('#kul_Ad').text(kullaniciAdi);
+                $(".left-bottom").fadeIn('1000');
+
+            }
+            else {
+                alert("Kullanıcı adı ve resim bölümünü boş bırakmayınız");
+            }
+        });
+       
+        $("#btn_tweet").click(function () {
+           
+            kulAdi= $('#kul_Ad').text();
+            mesaj=$("#mesaj").val();
+            socket.emit('baglanan',kulAdi);
+            socket.emit('yollananmesaj',mesaj);
+           
+        });
+
+    </script>
+   
+
+</body>
+
+</html>

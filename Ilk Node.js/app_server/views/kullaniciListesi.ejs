@@ -1,0 +1,31 @@
+<h1> Kullanici Listesi Sayfası </h1>
+
+<table border="1">
+  <thead>
+  <tr>
+<th># </th>
+   <th> Ad </th>
+   <th> Soyad </th>
+   <th> Kullanıcı Adı </th>
+   <th> Şifre</th></tr>
+   <th> Sil </th>
+  </thead>   
+  <tbody>
+      <% for(var i=0;i<Kullar.length;i++){%>
+       <%if(i%2==0){%>
+              <tr class="info">
+         <% }
+          else{ %>
+              <tr class="warning">
+         <% } %>
+   
+          <td> <%= i+1 %></td>
+           <td> <%= Kullar[i].ad %></td>
+           <td> <%= Kullar[i].soyad %></td>
+           <td> <%= Kullar[i].kullaniciAdi %></td>
+            <td> <%= Kullar[i].sifre %></td>
+            <td> <a href="/login/kullaniciSil/<%=Kullar[i].kullaniciAdi%> ">Sil</a></td>
+          </tr>
+     <% }%>  
+  </tbody>
+</table>

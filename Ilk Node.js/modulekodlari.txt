@@ -1,0 +1,18 @@
+
+-Package.json kurmalısın
+
+Modul yuklemek için=>
+@@npm install -g nodemon 
+diyerek otochange i başlatıyoruz..
+
+@@nodemon app.js 
+diyerek nodemon ile projemizi çalıştırıyoruz..
+
+Package.json dosyasına script-start objecsi tanımlıyoruz ve
+@@npm start 
+dediğimizde oto olarak proje çalışıyor..
+
+@@npm install express --save
+dediğimizde modul yuklemiş olyuoruz ve package dosyasına dependence bolumune bu dosya kaydoluyor
+
+

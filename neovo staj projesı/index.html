@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .aramaBolumu {
+
+
+            font-size: 14px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        #myTable th,
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myTable tr.header,
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="container">
+
+       
+
+
+
+        <h1 class="text-center text-danger"> Kitap Listesi </h1>
+        <p class="text-right"><a class="btn btn-success" href="/create">Yeni Kitap Ekle</a></p>
+        <br>
+        <div class="row">
+
+            <div class="col-sm-4">
+                <input type="text" class="aramaBolumu" data-id="ad" placeholder="Ada göre ara...">
+            </div>
+            <div class="col-sm-4">
+                <input type="text" class="aramaBolumu" data-id="yazar" placeholder="Yazara göre ara...">
+            </div>
+            <div class="col-sm-4">
+                <input  type="text" class="aramaBolumu" data-id="yayin" placeholder="Yayına göre ara...">
+            </div>
+           
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+
+
+                        <th> Kitap Adı </th>
+                        <th> Yazarı </th>
+                        <th>Yayın Evi</th>
+                        <th> # </th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $.getJSON('http://5b5c4fcd6a725000148a6771.mockapi.io/api/Books', function (veri) {
+            $.each(veri, function (key, item) {
+
+                $('tbody').append("<tr><td>" + item.kitapad + "</td><td>" + item.yazar + "</td><td>" + item.yayinevi + "</td>  <td> <a href='/details?kid=" + item.id + "'>Detayları Gör</a></td> </tr>");
+            })
+        })
+
+        $('.aramaBolumu').keyup(function () {
+            var filtre, table, tr, td, i, kacinciTD;
+
+            filtre = $(this).val().toUpperCase();
+
+            table = document.getElementById("myTable");
+
+            var neyeGore = $(this).data('id');
+            if (neyeGore == 'ad') {
+                kacinciTD = 0;
+            } else if (neyeGore == 'yazar') {
+                kacinciTD = 1;
+            } else if (neyeGore == 'yayin') {
+                kacinciTD = 2;
+            }
+
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[kacinciTD];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filtre) > -1) {
+                        tr[i].style.display = "";
+
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        })
+
+
+    })
+
+
+
+
+</script>
+
+</html>

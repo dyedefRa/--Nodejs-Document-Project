@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!-- DATAYI LISTEME OLAYI YAPTIK -->
+
+    <title>Document</title>
+</head>
+<body ng-app="myapp">
+<input type="text" ng-model="arama">
+    <ul ng-controller="mycontroller">
+        <li ng-repeat="veri in veriler | filter:arama | orderBy:'soyad'">{{veri}}</li>
+    </ul>
+   <button>MERHABA</button>
+
+    <script src=" https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script>
+    <script>
+        var myapp = angular.module('myapp', []);
+        var myController = myapp.controller('mycontroller', function ($scope, $http) {
+
+            $http.post('/guncelleme').then(function (data) {
+
+                $scope.veriler = data.data;
+            });
+        });
+    </script>
+</body>
+
+</html>

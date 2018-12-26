@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        video {
+            border: 2px solid #999;
+        }
+    </style>
+    <title>Live</title>
+</head>
+
+<body>
+
+    <video id="camera" height="400" width="600" src=""></video>
+
+    <script>
+        window.URL = window.URL || window.webkitURL||window.oURL;
+
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || msGetUserMedia ||oGetUserMedia;
+
+        if (navigator.getUserMedia) {
+
+            navigator.getUserMedia({ audio: true, video: true }, function (stream) {
+                document.getElementById('camera').src = window.URL.createObjectURL(stream);
+                document.getElementById('camera').play();
+            }, function (error) {
+                alert(error);
+            })
+
+        } else {
+            alert('HATA VAR');
+        }
+    </script>
+</body>
+
+</html>
